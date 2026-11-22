@@ -1,0 +1,53 @@
+{
+  "name": "@jylups/flowable-bpmn-js-behaviors",
+  "version": "0.0.0",
+  "description": "bpmn-js modeling behaviors for the Flowable BPMN extensions",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "test": "vitest run",
+    "dev": "vitest",
+    "all": "npm run lint && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jylups/flowable-bpmn-js-behaviors.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jylups/bpmn-js-env/issues"
+  },
+  "homepage": "https://github.com/jylups/flowable-bpmn-js-behaviors#readme",
+  "keywords": [
+    "bpmn",
+    "bpmn-js",
+    "behaviors",
+    "flowable"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "peerDependencies": {
+    "bpmn-js": "^18.33.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/browser-playwright": "^5.1.1",
+    "bpmn-js": "^18.33.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "playwright": "^1.65.1",
+    "vitest": "^5.1.1"
+  }
+}
