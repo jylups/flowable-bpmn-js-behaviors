@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             xmlns:tns="Examples"
+             targetNamespace="Examples"
+             id="Definitions_1">
+  <message id="Message_Existing" name="existing" />
+  <signal id="Signal_Real" name="real" />
+  <message id="writeReport" name="newWriteReport" />
+  <process id="Process_1" isExecutable="true">
+    <startEvent id="MessageStart">
+      <messageEventDefinition messageRef="existing" />
+    </startEvent>
+    <serviceTask id="Task_1" flowable:class="org.example.Lookup" />
+    <boundaryEvent id="NotFoundBoundary" attachedToRef="Task_1">
+      <errorEventDefinition errorRef="notFound" />
+    </boundaryEvent>
+    <boundaryEvent id="ServerErrorBoundary" attachedToRef="Task_1">
+      <errorEventDefinition errorRef="500" />
+    </boundaryEvent>
+    <endEvent id="NotFoundEnd">
+      <errorEventDefinition errorRef="notFound" />
+    </endEvent>
+    <intermediateCatchEvent id="OrderCatch">
+      <messageEventDefinition messageRef="notFound" />
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="AlarmCatch">
+      <signalEventDefinition signalRef="alarm" />
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="ReportCatch">
+      <messageEventDefinition messageRef="tns:writeReport" />
+    </intermediateCatchEvent>
+    <intermediateThrowEvent id="RealThrow">
+      <signalEventDefinition signalRef="Signal_Real" />
+    </intermediateThrowEvent>
+    <endEvent id="LateEnd">
+      <escalationEventDefinition escalationRef="late" />
+    </endEvent>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="MessageStart_di" bpmnElement="MessageStart">
+        <dc:Bounds x="100" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+        <dc:Bounds x="200" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotFoundBoundary_di" bpmnElement="NotFoundBoundary">
+        <dc:Bounds x="212" y="140" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServerErrorBoundary_di" bpmnElement="ServerErrorBoundary">
+        <dc:Bounds x="252" y="140" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotFoundEnd_di" bpmnElement="NotFoundEnd">
+        <dc:Bounds x="360" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="OrderCatch_di" bpmnElement="OrderCatch">
+        <dc:Bounds x="100" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AlarmCatch_di" bpmnElement="AlarmCatch">
+        <dc:Bounds x="180" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReportCatch_di" bpmnElement="ReportCatch">
+        <dc:Bounds x="420" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RealThrow_di" bpmnElement="RealThrow">
+        <dc:Bounds x="260" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LateEnd_di" bpmnElement="LateEnd">
+        <dc:Bounds x="340" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
