@@ -13,3 +13,10 @@
  *   });
  */
 export { default as FlowableBehaviorsModule } from './lib/index.js';
+
+export {
+  addExtensionElements,
+  getExtensionElement,
+  getExtensionElementsList,
+  removeExtensionElements
+} from './lib/util/ExtensionElementsUtil.js';

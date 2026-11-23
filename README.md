@@ -20,6 +20,16 @@ const modeler = new Modeler({
 
 bpmn-js and the Flowable moddle descriptor are peer dependencies. The behaviors work with or without the [Flowable properties panel](https://github.com/jylups/bpmn-js-properties-panel-flowable).
 
+## Behaviors
+
+| Behavior | What it does |
+| --- | --- |
+| `TidyExtensionElementsBehavior` | Attaches a new `bpmn:ExtensionElements` once it gets values, removes one that is left empty, and sets missing `$parent` links of containers and their values. |
+
+## Helpers
+
+`addExtensionElements(element, businessObject, values, bpmnFactory, commandStack)` and `removeExtensionElements(element, businessObject, values, commandStack)` change extension elements in one command (one undo step); the container is created or removed by the behaviors. `getExtensionElementsList(element, type?)` and `getExtensionElement(element, type)` read them.
+
 ## Development
 
 Work in the [bpmn-js-env](https://github.com/jylups/bpmn-js-env) workspace, which links this package with the others and with the playground. Issues for this package are tracked there.
