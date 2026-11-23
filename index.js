@@ -20,3 +20,5 @@ export {
   getExtensionElementsList,
   removeExtensionElements
 } from './lib/util/ExtensionElementsUtil.js';
+
+export { createMissingDefinitions } from './lib/util/MissingDefinitions.js';
