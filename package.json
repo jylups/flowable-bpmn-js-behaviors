@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
+    "./missing-definitions": "./lib/util/MissingDefinitions.js",
     "./package.json": "./package.json"
   },
   "files": [
