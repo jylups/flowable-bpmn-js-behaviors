@@ -39,10 +39,12 @@
     "node": ">=24"
   },
   "peerDependencies": {
+    "@jylups/flowable-bpmn-moddle": "^0.1.0",
     "bpmn-js": "^18.33.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@jylups/flowable-bpmn-moddle": "^0.1.0",
     "@vitest/browser-playwright": "^5.1.1",
     "bpmn-js": "^18.33.1",
     "eslint": "^10.15.0",
