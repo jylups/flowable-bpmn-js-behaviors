@@ -4,6 +4,10 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+## 0.1.0
+
+First stable release, with the features of 0.1.0-next.0 and:
+
 * `FEAT`: export `createMissingDefinitions` from `@jylups/flowable-bpmn-js-behaviors/missing-definitions`, which works without bpmn-js, in plain Node too ([jylups/bpmn-js-env#38](https://github.com/jylups/bpmn-js-env/issues/38))
 
 ## 0.1.0-next.0
