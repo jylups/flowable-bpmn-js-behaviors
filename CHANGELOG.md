@@ -4,6 +4,8 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+* `FEAT`: export `createMissingDefinitions` from `@jylups/flowable-bpmn-js-behaviors/missing-definitions`, which works without bpmn-js, in plain Node too ([jylups/bpmn-js-env#38](https://github.com/jylups/bpmn-js-env/issues/38))
+
 ## 0.1.0-next.0
 
 First prerelease: modeling behaviors that keep Flowable extension data consistent, independent of the properties panel.

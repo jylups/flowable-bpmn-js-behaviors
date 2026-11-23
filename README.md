@@ -54,10 +54,10 @@ Flowable resolves an `errorRef`, `messageRef`, `signalRef` or `escalationRef` wi
 - An existing definition with the code or name is used before a new one is created, and one definition is created per distinct value.
 - The value becomes the ID when it is a valid, unused ID, so the reference is written as before; otherwise an ID is generated (`Error_500`).
 
-The behavior runs it on every import. It needs only moddle, so it also runs on a plain import result:
+The behavior runs it on every import. It needs only moddle, so it also runs on a plain import result. Import it from its own entry point, which loads nothing from bpmn-js and so also works in plain Node:
 
 ```js
-import { createMissingDefinitions } from '@jylups/flowable-bpmn-js-behaviors';
+import { createMissingDefinitions } from '@jylups/flowable-bpmn-js-behaviors/missing-definitions';
 
 const { rootElement, warnings, elementsById } = await moddle.fromXML(xml, 'bpmn:Definitions');
 

@@ -271,3 +271,19 @@ describe('createMissingDefinitions', function() {
 
 });
 
+
+
+describe('missing-definitions entry point', function() {
+
+  it('imports nothing, so it loads without bpmn-js', async function() {
+
+    // given
+    const { default: source } = await import('../lib/util/MissingDefinitions.js?raw');
+    const { default: pkg } = await import('../package.json');
+
+    // then
+    expect(pkg.exports['./missing-definitions']).toBe('./lib/util/MissingDefinitions.js');
+    expect(source).not.toMatch(/^\s*import\s/m);
+  });
+
+});
