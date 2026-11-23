@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://flowable.org/bpmn"
+             id="Definitions_1">
+  <signal id="Signal_1" name="alarm" flowable:scope="processInstance" />
+  <process id="Process_1" isExecutable="true">
+    <userTask id="UserTask_1" name="Review" flowable:assignee="${initiator}" flowable:candidateGroups="managers" flowable:formKey="review">
+      <extensionElements>
+        <flowable:taskListener event="create" class="org.example.CreateListener">
+          <flowable:field name="channel">
+            <flowable:string>email</flowable:string>
+          </flowable:field>
+        </flowable:taskListener>
+        <flowable:formProperty id="color" type="enum" required="true">
+          <flowable:value id="red" name="Red" />
+          <flowable:value id="blue" name="Blue" />
+        </flowable:formProperty>
+        <flowable:designerHint color="blue">keep</flowable:designerHint>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="true" flowable:collection="${reviewers}" flowable:elementVariable="reviewer">
+        <extensionElements>
+          <flowable:variableAggregation target="reviews">
+            <variable source="approved" target="approved" />
+          </flowable:variableAggregation>
+        </extensionElements>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <serviceTask id="HttpTask" name="Call" flowable:type="http">
+      <extensionElements>
+        <flowable:field name="requestMethod">
+          <flowable:string>GET</flowable:string>
+        </flowable:field>
+        <flowable:httpRequestHandler class="org.example.RequestHandler">
+          <flowable:field name="header">
+            <flowable:expression>${token}</flowable:expression>
+          </flowable:field>
+        </flowable:httpRequestHandler>
+        <flowable:httpResponseHandler type="script">
+          <flowable:script language="groovy">execution.setVariable('ok', true)</flowable:script>
+        </flowable:httpResponseHandler>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="TimerCatch" name="Every hour">
+      <timerEventDefinition flowable:businessCalendarName="office">
+        <timeCycle flowable:endDate="2027-01-01T00:00:00">R3/PT1H</timeCycle>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <intermediateThrowEvent id="SignalThrow" name="Raise alarm">
+      <signalEventDefinition signalRef="Signal_1" flowable:async="true" />
+    </intermediateThrowEvent>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="UserTask_1_di" bpmnElement="UserTask_1">
+        <dc:Bounds x="100" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="HttpTask_di" bpmnElement="HttpTask">
+        <dc:Bounds x="260" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TimerCatch_di" bpmnElement="TimerCatch">
+        <dc:Bounds x="132" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SignalThrow_di" bpmnElement="SignalThrow">
+        <dc:Bounds x="292" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
