@@ -2,7 +2,7 @@ import { expect } from 'vitest';
 
 import Modeler from 'bpmn-js/lib/Modeler';
 
-import flowableDescriptor from '@jylups/flowable-bpmn-moddle';
+import flowableDescriptor, { registerUnknownFlowableElements } from '@jylups/flowable-bpmn-moddle';
 
 import { FlowableBehaviorsModule } from '../index.js';
 
@@ -38,11 +38,13 @@ const MultiCommandModule = {
  * @param {Object[]} [options.modules] - more modules to add
  * @param {boolean} [options.behaviors=true] - false leaves the behaviors out,
  *   to compare with plain bpmn-js
+ * @param {boolean} [options.registerUnknown=false] - register the XML's
+ *   unknown flowable:* elements before the import, as apps do
  */
 export async function createModeler(xml, options = {}) {
   await destroyModeler();
 
-  const { modules = [], behaviors = true } = options;
+  const { modules = [], behaviors = true, registerUnknown = false } = options;
 
   const container = document.createElement('div');
   container.style.cssText = 'width: 800px; height: 500px;';
@@ -55,6 +57,10 @@ export async function createModeler(xml, options = {}) {
     moddleExtensions: { flowable: flowableDescriptor }
   });
 
+  if (registerUnknown) {
+    registerUnknownFlowableElements(modeler.get('moddle'), xml);
+  }
+
   const { warnings } = await modeler.importXML(xml);
 
   current = { modeler, container };
@@ -65,8 +71,35 @@ export async function createModeler(xml, options = {}) {
     get: name => modeler.get(name),
     element: id => modeler.get('elementRegistry').get(id),
     businessObject: id => modeler.get('elementRegistry').get(id).businessObject,
-    saveXML: async () => (await modeler.saveXML({ format: true })).xml
+    saveXML: async () => (await modeler.saveXML({ format: true })).xml,
+
+    /**
+     * Copies elements and pastes them into the root element; returns the
+     * pasted elements (without labels).
+     */
+    copyPaste: (elements, point = { x: 600, y: 400 }) => {
+      const elementRegistry = modeler.get('elementRegistry');
+      const copyPaste = modeler.get('copyPaste');
+
+      copyPaste.copy(elements.map(element => typeof element === 'string' ? elementRegistry.get(element) : element));
+
+      return paste(modeler, point);
+    },
+
+    /**
+     * Pastes what was copied before, for example into another diagram.
+     */
+    paste: (point = { x: 600, y: 400 }) => paste(modeler, point)
   };
+}
+
+function paste(modeler, point) {
+  const elementRegistry = modeler.get('elementRegistry');
+  const before = new Set(elementRegistry.getAll());
+
+  modeler.get('copyPaste').paste({ element: modeler.get('canvas').getRootElement(), point });
+
+  return elementRegistry.getAll().filter(element => !before.has(element) && !element.labelTarget);
 }
 
 export async function destroyModeler() {

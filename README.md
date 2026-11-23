@@ -26,7 +26,11 @@ bpmn-js and the Flowable moddle descriptor are peer dependencies. The behaviors 
 | --- | --- |
 | `AllowedExtensionElementsBehavior` | Copies a Flowable extension element, when bpmn-js replaces or pastes an element, only to an owner the descriptor's `allowedIn` lists; a user task's task listeners don't move to the service task that replaces it. |
 | `CleanUpReplacedElementBehavior` | After a replace, removes what the new element can't use where the descriptor doesn't tell: event registry and variable listener settings unless it is a catch event without an event definition, a signal's async option unless it throws, error variable options unless it catches, and a send task type other than mail, camel or dmn (with its fields). Part of the replace, so one undo restores the old element. |
+| `CopyUnknownAttributesBehavior` | Copies attributes the descriptor doesn't know (`$attrs`) when an element is copied to one of the same type, as on paste, including those of `flowable:*` elements registered with `registerUnknownFlowableElements`. A replace leaves them out. |
 | `TidyExtensionElementsBehavior` | Attaches a new `bpmn:ExtensionElements` once it gets values, removes one that is left empty, and sets missing `$parent` links of containers and their values. |
+| `UpdateModdleIdBehavior` | Keeps the model's ID registry in step when `element.updateModdleProperties` changes an ID (a participant's process, a signal, message or error), so the old ID is free again and the new one can't be given twice. References are objects and are written with the new ID. |
+
+Copy and paste keep Flowable properties: bpmn-js copies the business object, extension elements included, and brings referenced signals, messages, errors and escalations into another diagram; these behaviors add the allowed-in check, unknown attributes and the ID registry.
 
 ## Helpers
 
