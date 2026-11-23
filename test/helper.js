@@ -9,6 +9,27 @@ import { FlowableBehaviorsModule } from '../index.js';
 let current = null;
 
 /**
+ * Runs several commands as one undo step, like the properties panel's
+ * multi-command executor: execute('test.multi', [ { cmd, context }, … ]).
+ */
+class MultiCommandHandler {
+
+  constructor(commandStack) {
+    this._commandStack = commandStack;
+  }
+
+  preExecute(commands) {
+    commands.forEach(({ cmd, context }) => this._commandStack.execute(cmd, context));
+  }
+}
+
+MultiCommandHandler.$inject = [ 'commandStack' ];
+
+const MultiCommandModule = {
+  __init__: [ [ 'commandStack', commandStack => commandStack.registerHandler('test.multi', MultiCommandHandler) ] ]
+};
+
+/**
  * Creates a modeler with the Flowable moddle descriptor and the Flowable
  * behaviors, imports the XML and returns helpers for the tests.
  *
@@ -30,7 +51,7 @@ export async function createModeler(xml, options = {}) {
 
   const modeler = new Modeler({
     container,
-    additionalModules: [ ...(behaviors ? [ FlowableBehaviorsModule ] : []), ...modules ],
+    additionalModules: [ ...(behaviors ? [ FlowableBehaviorsModule ] : []), MultiCommandModule, ...modules ],
     moddleExtensions: { flowable: flowableDescriptor }
   });
 
