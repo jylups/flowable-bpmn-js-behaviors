@@ -24,6 +24,8 @@ bpmn-js and the Flowable moddle descriptor are peer dependencies. The behaviors 
 
 | Behavior | What it does |
 | --- | --- |
+| `AllowedExtensionElementsBehavior` | Copies a Flowable extension element, when bpmn-js replaces or pastes an element, only to an owner the descriptor's `allowedIn` lists; a user task's task listeners don't move to the service task that replaces it. |
+| `CleanUpReplacedElementBehavior` | After a replace, removes what the new element can't use where the descriptor doesn't tell: event registry and variable listener settings unless it is a catch event without an event definition, a signal's async option unless it throws, error variable options unless it catches, and a send task type other than mail, camel or dmn (with its fields). Part of the replace, so one undo restores the old element. |
 | `TidyExtensionElementsBehavior` | Attaches a new `bpmn:ExtensionElements` once it gets values, removes one that is left empty, and sets missing `$parent` links of containers and their values. |
 
 ## Helpers

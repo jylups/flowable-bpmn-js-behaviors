@@ -4,6 +4,7 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+* `FEAT`: clean up Flowable properties when an element is replaced: copy extension elements only where they are allowed, and drop event registry, variable listener, signal, error and send task settings the new element can't use ([jylups/bpmn-js-env#35](https://github.com/jylups/bpmn-js-env/issues/35))
 * `FEAT`: keep `bpmn:ExtensionElements` tidy: attach new containers, remove empty ones, set missing parents; add extension element helpers ([jylups/bpmn-js-env#36](https://github.com/jylups/bpmn-js-env/issues/36))
 * `FEAT`: add the `FlowableBehaviorsModule` and a test harness with undo and redo checks ([jylups/bpmn-js-env#34](https://github.com/jylups/bpmn-js-env/issues/34))
 * `CHORE`: add the package scaffold: ESM package, lint and Vitest setup ([jylups/bpmn-js-env#3](https://github.com/jylups/bpmn-js-env/issues/3))
