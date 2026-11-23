@@ -4,10 +4,8 @@ bpmn-js modeling behaviors for the Flowable BPMN extensions.
 
 ## Install
 
-> Prerelease. Built in Phase 3 of the Flowable BPMN editor ([jylups/bpmn-js-env#33](https://github.com/jylups/bpmn-js-env/issues/33)).
-
 ```sh
-npm install @jylups/flowable-bpmn-js-behaviors@next @jylups/flowable-bpmn-moddle bpmn-js
+npm install @jylups/flowable-bpmn-js-behaviors @jylups/flowable-bpmn-moddle bpmn-js
 ```
 
 ## Usage
