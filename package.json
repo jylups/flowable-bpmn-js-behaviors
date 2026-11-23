@@ -1,6 +1,6 @@
 {
   "name": "@jylups/flowable-bpmn-js-behaviors",
-  "version": "0.0.0",
+  "version": "0.1.0-next.0",
   "description": "bpmn-js modeling behaviors for the Flowable BPMN extensions",
   "type": "module",
   "exports": {
